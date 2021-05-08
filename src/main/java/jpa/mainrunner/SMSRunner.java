@@ -158,7 +158,7 @@ public class SMSRunner {
         switch (menuSelection) {
             case 1:
                 if (studentCourses.size() > 0) allCourses.removeAll(studentCourses);
-                out.println();
+                out.println("\nAll Courses");
                 out.printf("%-5s%-35s%-25s\n", "ID", "Course", "Instructor");
                 for (Course course : allCourses) {
                     out.printf("%-5s%-35s%-25s\n", course.getCId(), course.getCName(), course.getCInstructorName());

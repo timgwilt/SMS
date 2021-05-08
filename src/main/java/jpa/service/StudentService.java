@@ -12,6 +12,8 @@ import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
+import static java.lang.System.out;
+
 public class StudentService implements StudentDAO {
     private final EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("SMS");
 
@@ -36,7 +38,7 @@ public class StudentService implements StudentDAO {
             query.setParameter("email", sEmail);
             student = (Student) query.getSingleResult();
         } catch (Exception e) {
-            e.printStackTrace();
+            //e.printStackTrace();1
         } finally {
             entityManager.close();
         }
@@ -72,7 +74,7 @@ public class StudentService implements StudentDAO {
             }
             entityManager.getTransaction().commit();
         } catch (Exception e) {
-            e.printStackTrace();
+            //e.printStackTrace();
             entityManager.getTransaction().rollback();
         } finally {
             entityManager.close();
@@ -89,7 +91,7 @@ public class StudentService implements StudentDAO {
             query.setParameter("email", sEmail);
             courses = query.getResultList();
         } catch (Exception e) {
-            e.printStackTrace();
+            //e.printStackTrace();
         } finally {
             entityManager.close();
         }
@@ -114,7 +116,7 @@ public class StudentService implements StudentDAO {
             }
             entityManager.getTransaction().commit();
         } catch (Exception e) {
-            e.printStackTrace();
+            //e.printStackTrace();
             entityManager.getTransaction().rollback();
         } finally {
             entityManager.close();

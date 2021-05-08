@@ -25,11 +25,12 @@ public class Student {
     @Column(name = "password", nullable = false, columnDefinition = "VARCHAR(50)", length = 50)
     String sPass;
 
-    @OneToMany
+    @ManyToMany
     @JoinTable(
             name = "student_course",
-            joinColumns = {@JoinColumn(name = "student_email", referencedColumnName = "email")},
-            inverseJoinColumns = {@JoinColumn(name = "course_id", referencedColumnName = "id")}
+            joinColumns = {@JoinColumn(name = "student_email", referencedColumnName = "email",unique = false)},
+            inverseJoinColumns = {@JoinColumn(name = "course_id", referencedColumnName = "id",unique = false)},
+            indexes = {@Index(columnList = "student_email,course_id")}
     )
     List<Course> sCourses;
 

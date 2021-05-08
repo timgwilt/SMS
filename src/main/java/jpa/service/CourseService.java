@@ -22,7 +22,7 @@ public class CourseService implements CourseDAO {
             Query query = entityManager.createNamedQuery("allCourses");
             courses = query.getResultList();
         } catch (Exception e) {
-            e.printStackTrace();
+            //e.printStackTrace();
         } finally {
             entityManager.close();
         }
@@ -36,7 +36,7 @@ public class CourseService implements CourseDAO {
         try {
             course = entityManager.find(Course.class, cId);
         } catch (Exception e) {
-            e.printStackTrace();
+            //e.printStackTrace();
         } finally {
             entityManager.close();
         }
