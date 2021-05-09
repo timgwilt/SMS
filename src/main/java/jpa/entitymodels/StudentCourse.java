@@ -6,6 +6,7 @@ import lombok.experimental.FieldDefaults;
 import javax.persistence.*;
 import java.io.Serializable;
 
+// Join table that is using composite index
 @Entity
 @Table(name = "student_course", uniqueConstraints = {@UniqueConstraint(columnNames = {"course_id", "student_email"})})
 @FieldDefaults(level = AccessLevel.PRIVATE)

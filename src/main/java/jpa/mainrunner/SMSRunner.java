@@ -19,6 +19,7 @@ public class SMSRunner {
     private Student currentStudent;
 
     public SMSRunner() {
+        // Initializing necessary variables
         sin = new Scanner(System.in);
         sb = new StringBuilder();
         courseService = new CourseService();
@@ -35,6 +36,7 @@ public class SMSRunner {
         switch (menu1()) {
             case 1:
                 if (studentLogin()) {
+                    //Register or drop a course or quit
                     registerMenu();
                 }
                 break;
@@ -44,7 +46,7 @@ public class SMSRunner {
             default:
         }
     }
-
+    // first level menu
     private int menu1() {
         boolean validSelection = false;
         int menuSelection = 0;
@@ -67,12 +69,15 @@ public class SMSRunner {
         boolean retValue = false;
         boolean notLoggedIn = true;
         while (notLoggedIn) {
+            // validating email and password entered
             out.print("Enter your email address: ");
             String email = sin.next();
             out.print("Enter your password: ");
             String password = sin.next();
             retValue = studentService.validateStudent(email, password);
 
+            // show registered courses for valid student
+            // it student is not registered for any courses the list will be blank
             if (retValue) {
                 notLoggedIn = !notLoggedIn;
                 currentStudent = studentService.getStudentByEmail(email);
@@ -119,10 +124,12 @@ public class SMSRunner {
                     sin.next();
                     continue;
                 }
+                // checking if student is already registered for course
                 boolean alreadyRegistered = studentService.getStudentRegistered(currentStudent.getSEmail(), number);
                 Course course = courseService.getCourseById(number);
                 if (course != null) {
                     switch (menuSelection) {
+                        // registering for a course
                         case 1:
                             if (!alreadyRegistered) {
                                 studentService.registerStudentToCourse(currentStudent.getSEmail(), course.getCId());
@@ -133,6 +140,7 @@ public class SMSRunner {
                             }
                             break;
                         case 2:
+                            // dropping a course
                             if (alreadyRegistered) {
                                 studentService.unregisterStudentToCourse(currentStudent.getSEmail(), course.getCId());
                                 out.printf("You have dropped course %s\n", course.getCName());
@@ -151,12 +159,13 @@ public class SMSRunner {
             }
         }
     }
-
+    // shows complete course list or students list
     private void showCourseList(int menuSelection) {
         List<Course> allCourses = courseService.getAllCourses();
         List<Course> studentCourses = studentService.getStudentCourses(currentStudent.getSEmail());
         switch (menuSelection) {
             case 1:
+                // showing all courses and removing any course already registered to
                 if (studentCourses.size() > 0) allCourses.removeAll(studentCourses);
                 out.println("\nAll Courses");
                 out.printf("%-5s%-35s%-25s\n", "ID", "Course", "Instructor");
@@ -165,6 +174,7 @@ public class SMSRunner {
                 }
                 break;
             case 2:
+                // showing student's list of courses
                 out.println("My Classes");
                 out.printf("%-5s%-35s%-25s\n", "ID", "Course", "Instructor");
                 for (Course course : studentCourses) {
@@ -177,6 +187,7 @@ public class SMSRunner {
     }
 
     private void showStudentCourses(Student temp) {
+        //get all courses that student is enrolled in
         StudentService scService = new StudentService();
         List<Course> sCourses = scService.getStudentCourses(temp.getSEmail());
 

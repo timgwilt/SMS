@@ -22,6 +22,7 @@ public class StudentService implements StudentDAO {
     public List<Student> getAllStudents() {
         List<Student> students = null;
         EntityManager entityManager = entityManagerFactory.createEntityManager();
+        // using name query to retrieve all students
         Query query = entityManager.createNamedQuery("allStudents");
         students = query.getResultList();
         entityManager.close();
@@ -30,6 +31,7 @@ public class StudentService implements StudentDAO {
 
     @Override
     @Transactional
+    //returning a single student for the email passed
     public Student getStudentByEmail(String sEmail) {
         Student student = null;
         EntityManager entityManager = entityManagerFactory.createEntityManager();
@@ -61,13 +63,16 @@ public class StudentService implements StudentDAO {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         try {
             entityManager.getTransaction().begin();
+            // find student
             Student student = entityManager.find(Student.class, sEmail);
+            //get all courses for above student
             List<Course> courses = getStudentCourses(sEmail);
-
+            // getting all students
             List<Course> courseList = new ArrayList<Course>();
             courseList.addAll(courses);
+            //adding new course to list
             courseList.add(new CourseService().getCourseById(cId));
-
+            //saving to database
             if (courseList.size() > 0) {
                 student.setSCourses(courseList);
                 entityManager.persist(student);

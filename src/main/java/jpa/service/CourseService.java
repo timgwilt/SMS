@@ -19,6 +19,7 @@ public class CourseService implements CourseDAO {
         List<Course> courses = null;
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         try {
+            // using named query
             Query query = entityManager.createNamedQuery("allCourses");
             courses = query.getResultList();
         } catch (Exception e) {
